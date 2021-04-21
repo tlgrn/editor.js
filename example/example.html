@@ -58,7 +58,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
-  <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/nested-list@latest"></script><!-- NestedList -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
   <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
@@ -120,7 +120,7 @@
         image: SimpleImage,
 
         list: {
-          class: List,
+          class: NestedList,
           inlineToolbar: true,
           shortcut: 'CMD+SHIFT+L'
         },
@@ -205,9 +205,18 @@
             type : 'list',
             data : {
               items : [
-                'It is a block-styled editor',
-                'It returns clean data output in JSON',
-                'Designed to be extendable and pluggable with a simple API',
+                {
+                  content: 'It is a block-styled editor',
+                  items: []
+                },
+                {
+                  content: 'It returns clean data output in JSON',
+                  items: []
+                },
+                {
+                  content: 'Designed to be extendable and pluggable with a simple API',
+                  items: []
+                }
               ],
               style: 'unordered'
             }
