@@ -1,0 +1,74 @@
+name: GitHub Pages deploy
+
+on: [push]
+
+jobs:
+  update-pages-repo:
+    env:
+      BRANCH: ${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout to target branch
+      - uses: actions/checkout@v2
+        with:
+          # Pull submodules
+          submodules: 'recursive'
+
+      # Setup node environment
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: https://registry.npmjs.org/
+
+      # Prepare, build and publish project
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build output files
+        run: yarn build
+
+      - name: Copy dist files to example page
+        run: |
+          cp -r dist/ example/dist
+          cp example/example-dev.html example/index.html
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: ${{ env.BRANCH }}
+          folder: example
+          repository-name: illiiiillllilii/illiiiillllilii.github.io
+          target-folder: ${{ env.BRANCH }}
+          token: ${{ secrets.TALY_GH_TOKEN }}
+          git-config-name: github-actions
+          git-config-email: action@github.com
+
+#      - run: mkdir dist
+#      - run: echo "$(date)" > dist/index.md
+#      - run: cat dist/index.md
+#
+#      - run: |
+#          git config --global user.email "action@github.com"
+#          git config --global user.name "github-actions"
+#
+#      - uses: actions/checkout@v2
+#        with:
+#          repository: illiiiillllilii/illiiiillllilii.github.io
+#          path: ./PAGES
+#          token: ${{ secrets.TALY_GH_TOKEN }}
+#
+#      - run: |
+#          rm -rf ./PAGES/${{ env.BRANCH }}
+#          mkdir -p ./PAGES/${{ env.BRANCH }}
+#          cp -R dist/* ./PAGES/${{ env.BRANCH }}
+#          cd ./PAGES
+#          git add .
+#          git commit -m "chore: add a new dist folder"
+#          git push
+#
+#      - uses: ouzi-dev/commit-status-updater@v1.1.0
+#        with:
+#          status: "success"
+#          url: https://illiiiillllilii.github.io/${{ env.BRANCH }}/index.html
+#          description: "Successfully deployed to pages"
+#          name: "🚀 GH Pages"
