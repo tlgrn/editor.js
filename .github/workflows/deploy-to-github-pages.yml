@@ -35,13 +35,20 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          branch: ${{ env.BRANCH }}
+          branch: main
           folder: example
           repository-name: illiiiillllilii/illiiiillllilii.github.io
           target-folder: ${{ env.BRANCH }}
           token: ${{ secrets.TALY_GH_TOKEN }}
           git-config-name: github-actions
           git-config-email: action@github.com
+
+      - uses: ouzi-dev/commit-status-updater@v1.1.0
+        with:
+          status: "success"
+          url: https://illiiiillllilii.github.io/${{ env.BRANCH }}/index.html
+          description: "Successfully deployed to pages"
+          name: "🚀 GH Pages"
 
 #      - run: mkdir dist
 #      - run: echo "$(date)" > dist/index.md
