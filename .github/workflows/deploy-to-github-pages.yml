@@ -34,6 +34,7 @@ jobs:
       - name: Compose export directory
         run: |
           mkdir export
+          mkdir export dist
           cp dist/editor.js export/dist/editor.js
           cp example/example.html export/example.html
           cp -r example/assets export/assets
