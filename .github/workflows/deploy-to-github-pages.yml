@@ -59,7 +59,8 @@ jobs:
       # https://github.com/ouzi-dev/commit-status-updater
       - uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
-          status: ${{ steps.deploy_action.outputs.deployment_status }}
+          # todo set status from ${{ steps.deploy_action.outputs.deployment_status }}
+          status: success
           url: ${{ env.PAGES_URL }}${{ env.BRANCH }}/index.html
 
           # todo compose message and name depending on status
