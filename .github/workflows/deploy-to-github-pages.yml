@@ -34,8 +34,8 @@ jobs:
       - name: Compose export directory
         run: |
           mkdir export
-          cp dist/editor.js export/editor.js
-          cp example/example.html export/index.html
+          cp dist/editor.js export/dist/editor.js
+          cp example/example.html export/example.html
           cp -r example/assets export/assets
 
       # GitHub Pages Deploy Action
@@ -63,7 +63,7 @@ jobs:
         with:
           # todo set status from ${{ steps.deploy_action.outputs.deployment_status }}
           status: success
-          url: ${{ env.PAGES_URL }}${{ env.BRANCH }}/index.html
+          url: ${{ env.PAGES_URL }}${{ env.BRANCH }}/example.html
 
           # todo compose message and name depending on status
           description: "Successfully deployed to GH Pages"
