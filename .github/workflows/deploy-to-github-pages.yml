@@ -55,7 +55,7 @@ jobs:
           git-config-name: github-actions
           git-config-email: action@github.com
 
-      #
+      # Add deployment commit status
       # https://github.com/ouzi-dev/commit-status-updater
       - uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
@@ -64,5 +64,5 @@ jobs:
           url: ${{ env.PAGES_URL }}${{ env.BRANCH }}/index.html
 
           # todo compose message and name depending on status
-          description: "Successfully deployed to Pages"
-          name: "Test on GH Pages!"
+          description: "Successfully deployed to GH Pages"
+          name: "Preview is ready!"
