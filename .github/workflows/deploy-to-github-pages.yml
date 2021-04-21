@@ -6,6 +6,10 @@ jobs:
   update-pages-repo:
     env:
       BRANCH: ${{ github.ref }}
+      FOLDER_TO_BE_DEPLOYED: example
+      PAGES_REPO: illiiiillllilii/illiiiillllilii.github.io
+      PAGES_URL: https://illiiiillllilii.github.io/
+
     runs-on: ubuntu-latest
     steps:
       # Checkout to target branch
@@ -32,23 +36,32 @@ jobs:
           cp -r dist/ example/dist
           cp example/example-dev.html example/index.html
 
+      # GitHub Pages Deploy Action
+      # https://github.com/JamesIves/github-pages-deploy-action
       - name: Deploy 🚀
+        id: deploy_action
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
+          # GH Pages repo target branch name and folder
           branch: main
-          folder: example
-          repository-name: illiiiillllilii/illiiiillllilii.github.io
           target-folder: ${{ env.BRANCH }}
+          repository-name: ${{ env.PAGES_REPO }}
+
+          # Folder to be deployed
+          folder: ${{ env.FOLDER_TO_BE_DEPLOYED }}
+
+          # Access and author params
           token: ${{ secrets.TALY_GH_TOKEN }}
           git-config-name: github-actions
           git-config-email: action@github.com
 
+      #
+      # https://github.com/ouzi-dev/commit-status-updater
       - uses: ouzi-dev/commit-status-updater@v1.1.0
         with:
-          # todo get deploy status from step above
-          status: "success"
+          status: ${{ steps.deploy_action.outputs.deployment_status }}
+          url: ${{ env.PAGES_URL }}${{ env.BRANCH }}/index.html
 
-          # todo compose deploy url
-          url: https://illiiiillllilii.github.io/${{ env.BRANCH }}/index.html
-          description: "Successfully deployed to pages"
-          name: "Test page deployed!"
+          # todo compose message and name depending on status
+          description: "Successfully deployed to Pages"
+          name: "Test on GH Pages!"
